@@ -25,7 +25,7 @@
                         accent: '#E11D48',
                     },
                     borderRadius: {
-                        'full':9999,
+                        'full': 9999,
                         'nike': '4px',
                     }
                 }
@@ -74,12 +74,27 @@
             color: white;
             font-family: 'Anton', sans-serif;
             font-style: italic;
-            font-size: 1.25rem;
+            font-size: 1rem;
             text-transform: uppercase;
+            text-align: center;
+            padding: 20px;
         }
 
         .page-transition {
             transition: opacity 0.3s ease-in-out;
+        }
+        
+        /* Ensure aspect-video works across all browsers */
+        .aspect-video {
+            aspect-ratio: 16 / 9;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
     </style>
 </head>
@@ -98,9 +113,9 @@
                 </div>
 
                 <div class="hidden md:flex items-center gap-10 font-bold text-sm tracking-tight uppercase">
-                    <a href="javascript:void(0)" onclick="navigateTo('home'); setTimeout(() => document.getElementById('services').scrollIntoView(), 100)" class="hover:border-b-2 border-black dark:border-white py-1 transition-all">Services</a>
-                    <a href="javascript:void(0)" onclick="navigateTo('home'); setTimeout(() => document.getElementById('calculator').scrollIntoView(), 100)" class="hover:border-b-2 border-black dark:border-white py-1 transition-all">Pricing</a>
-                    <a href="javascript:void(0)" onclick="navigateTo('home'); setTimeout(() => document.getElementById('contact').scrollIntoView(), 100)" class="hover:border-b-2 border-black dark:border-white py-1 transition-all">Support</a>
+                    <button onclick="handleNavScroll('services')" class="hover:border-b-2 border-black dark:border-white py-1 transition-all">Services</button>
+                    <button onclick="handleNavScroll('calculator')" class="hover:border-b-2 border-black dark:border-white py-1 transition-all">Pricing</button>
+                    <button onclick="handleNavScroll('contact')" class="hover:border-b-2 border-black dark:border-white py-1 transition-all">Support</button>
                 </div>
 
                 <div class="flex items-center gap-6">
@@ -108,9 +123,9 @@
                         <i data-lucide="moon" id="theme-icon-dark" class="hidden w-5 h-5"></i>
                         <i data-lucide="sun" id="theme-icon-light" class="w-5 h-5"></i>
                     </button>
-                    <a href="#contact" class="hidden md:block bg-black text-white dark:bg-white dark:text-black px-6 py-2 rounded-full font-bold text-sm btn-nike">
+                    <button onclick="handleNavScroll('contact')" class="hidden md:block bg-black text-white dark:bg-white dark:text-black px-6 py-2 rounded-full font-bold text-sm btn-nike">
                         Get Started
-                    </a>
+                    </button>
                     <button id="mobile-menu-btn" class="md:hidden p-2">
                         <i data-lucide="menu" class="w-6 h-6"></i>
                     </button>
@@ -119,11 +134,12 @@
         </div>
 
         <div id="mobile-menu" class="hidden md:hidden fixed inset-0 top-16 bg-white dark:bg-black z-40 p-8 space-y-6 flex flex-col">
-            <a href="javascript:void(0)" onclick="navigateTo('home')" class="text-3xl font-impact uppercase italic">Home</a>
-            <a href="javascript:void(0)" onclick="navigateTo('home')" class="text-3xl font-impact uppercase italic">Services</a>
-            <a href="javascript:void(0)" onclick="navigateTo('home')" class="text-3xl font-impact uppercase italic">Pricing</a>
+            <button onclick="navigateTo('home')" class="text-3xl font-impact uppercase italic text-left">Home</button>
+            <button onclick="handleNavScroll('services')" class="text-3xl font-impact uppercase italic text-left">Services</button>
+            <button onclick="handleNavScroll('calculator')" class="text-3xl font-impact uppercase italic text-left">Pricing</button>
+            <button onclick="handleNavScroll('contact')" class="text-3xl font-impact uppercase italic text-left text-zinc-400">Support</button>
             <hr class="border-zinc-200 dark:border-zinc-800">
-            <button class="w-full bg-black text-white dark:bg-white dark:text-black py-4 rounded-full font-bold uppercase tracking-widest">Book Emergency</button>
+            <button onclick="handleNavScroll('contact')" class="w-full bg-black text-white dark:bg-white dark:text-black py-4 rounded-full font-bold uppercase tracking-widest">Book Emergency</button>
         </div>
     </nav>
 
@@ -145,16 +161,16 @@
                                 Engineered for speed. Built for the grind. Our high-pressure systems ensure you never slow down.
                             </p>
                             <div class="flex flex-wrap gap-4 pt-4">
-                                <a href="#contact" class="px-10 py-4 bg-black text-white dark:bg-white dark:text-black rounded-full font-bold text-lg btn-nike">
+                                <button onclick="handleNavScroll('services')" class="px-10 py-4 bg-black text-white dark:bg-white dark:text-black rounded-full font-bold text-lg btn-nike">
                                     Shop Services
-                                </a>
-                                <a href="#services" class="px-10 py-4 border border-zinc-300 dark:border-zinc-700 rounded-full font-bold text-lg btn-nike">
-                                    Explore Tech
-                                </a>
+                                </button>
+                                <button onclick="handleNavScroll('calculator')" class="px-10 py-4 border border-zinc-300 dark:border-zinc-700 rounded-full font-bold text-lg btn-nike">
+                                    Spec Your Build
+                                </button>
                             </div>
                         </div>
                         <div class="lg:col-span-6 relative">
-                            <div class="aspect-video bg-zinc-100 dark:bg-zinc-900 rounded-2xl overflow-hidden relative group">
+                            <div class="aspect-video bg-zinc-100 dark:bg-zinc-900 rounded-2xl overflow-hidden relative group shadow-2xl">
                                 <img src="https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&q=80&w=1200" 
                                      alt="High-pressure industrial maintenance" 
                                      class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
@@ -178,40 +194,40 @@
                         </div>
                     </div>
 
-                    <div id="service-grid" class="grid md:grid-cols-3 gap-1">
-                        <!-- Service 1: Residential Tooling -->
-                        <div onclick="navigateTo('airflow')" class="service-card group relative aspect-video bg-zinc-100 dark:bg-zinc-900 overflow-hidden cursor-pointer">
+                    <div id="service-grid" class="grid md:grid-cols-3 gap-4">
+                        <!-- Service 1 -->
+                        <div onclick="navigateTo('airflow')" class="service-card group relative aspect-video bg-zinc-100 dark:bg-zinc-900 overflow-hidden cursor-pointer rounded-xl">
                             <img src="Gemini_Generated_Image_o7312co7312co731.png" 
                                  class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700 grayscale group-hover:grayscale-0"
                                  alt="Air-Flow Clog Tech">
-                            <div class="absolute inset-0 p-10 flex flex-col justify-end bg-gradient-to-t from-black/80 to-transparent">
-                                <h3 class="text-3xl font-impact italic text-white uppercase mb-2 leading-none">Air-Flow Clog Tech</h3>
-                                <p class="text-zinc-300 font-medium text-sm max-w-xs opacity-0 group-hover:opacity-100 transition-opacity">Precision snake extraction for maximum pipe clearance.</p>
-                                <button class="mt-4 w-fit bg-white text-black px-6 py-2 rounded-full text-xs font-black uppercase">View Product</button>
+                            <div class="absolute inset-0 p-8 flex flex-col justify-end bg-gradient-to-t from-black/80 to-transparent">
+                                <h3 class="text-2xl font-impact italic text-white uppercase mb-1 leading-none">Air-Flow Clog Tech</h3>
+                                <p class="text-zinc-300 font-medium text-xs max-w-xs opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">Precision snake extraction.</p>
+                                <button class="mt-4 w-fit bg-white text-black px-6 py-2 rounded-full text-[10px] font-black uppercase">Explore</button>
                             </div>
                         </div>
 
-                        <!-- Service 2: Commercial Heavy Duty -->
-                        <div onclick="navigateTo('hydroforce')" class="service-card group relative aspect-video bg-zinc-100 dark:bg-zinc-900 overflow-hidden cursor-pointer">
+                        <!-- Service 2 -->
+                        <div onclick="navigateTo('hydroforce')" class="service-card group relative aspect-video bg-zinc-100 dark:bg-zinc-900 overflow-hidden cursor-pointer rounded-xl">
                             <img src="Gemini_Generated_Image_bdks80bdks80bdks.png" 
                                  class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700 grayscale group-hover:grayscale-0"
                                  alt="Hydro-Force Blast">
-                            <div class="absolute inset-0 p-10 flex flex-col justify-end bg-gradient-to-t from-black/80 to-transparent">
-                                <h3 class="text-3xl font-impact italic text-white uppercase mb-2 leading-none">Hydro-Force Blast</h3>
-                                <p class="text-zinc-300 font-medium text-sm max-w-xs opacity-0 group-hover:opacity-100 transition-opacity">Industrial strength hydro-jetting for commercial arteries.</p>
-                                <button class="mt-4 w-fit bg-white text-black px-6 py-2 rounded-full text-xs font-black uppercase">View Product</button>
+                            <div class="absolute inset-0 p-8 flex flex-col justify-end bg-gradient-to-t from-black/80 to-transparent">
+                                <h3 class="text-2xl font-impact italic text-white uppercase mb-1 leading-none">Hydro-Force Blast</h3>
+                                <p class="text-zinc-300 font-medium text-xs max-w-xs opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">Industrial strength jetting.</p>
+                                <button class="mt-4 w-fit bg-white text-black px-6 py-2 rounded-full text-[10px] font-black uppercase">Explore</button>
                             </div>
                         </div>
 
-                        <!-- Service 3: Structural Maintenance -->
-                        <div onclick="navigateTo('vapordrain')" class="service-card group relative aspect-video bg-zinc-100 dark:bg-zinc-900 overflow-hidden cursor-pointer">
+                        <!-- Service 3 -->
+                        <div onclick="navigateTo('vapordrain')" class="service-card group relative aspect-video bg-zinc-100 dark:bg-zinc-900 overflow-hidden cursor-pointer rounded-xl">
                             <img src="Gemini_Generated_Image_ttmoqlttmoqlttmo.png" 
                                  class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700 grayscale group-hover:grayscale-0"
                                  alt="Vapor Drain Shield">
-                            <div class="absolute inset-0 p-10 flex flex-col justify-end bg-gradient-to-t from-black/80 to-transparent">
-                                <h3 class="text-3xl font-impact italic text-white uppercase mb-2 leading-none">Vapor Drain Shield</h3>
-                                <p class="text-zinc-300 font-medium text-sm max-w-xs opacity-0 group-hover:opacity-100 transition-opacity">Advanced structural protection against mainline flooding.</p>
-                                <button class="mt-4 w-fit bg-white text-black px-6 py-2 rounded-full text-xs font-black uppercase">View Product</button>
+                            <div class="absolute inset-0 p-8 flex flex-col justify-end bg-gradient-to-t from-black/80 to-transparent">
+                                <h3 class="text-2xl font-impact italic text-white uppercase mb-1 leading-none">Vapor Drain Shield</h3>
+                                <p class="text-zinc-300 font-medium text-xs max-w-xs opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">Structural backflow defense.</p>
+                                <button class="mt-4 w-fit bg-white text-black px-6 py-2 rounded-full text-[10px] font-black uppercase">Explore</button>
                             </div>
                         </div>
                     </div>
@@ -221,7 +237,7 @@
             <!-- Pricing Calculator -->
             <section id="calculator" class="py-32 bg-zinc-50 dark:bg-zinc-950">
                 <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
-                    <div class="grid lg:grid-cols-2 bg-white dark:bg-zinc-900 overflow-hidden">
+                    <div class="grid lg:grid-cols-2 bg-white dark:bg-zinc-900 overflow-hidden shadow-2xl">
                         <div class="p-12 lg:p-24 space-y-12">
                             <header class="space-y-2">
                                 <p class="font-bold text-xs uppercase tracking-widest text-zinc-400">Customization</p>
@@ -255,7 +271,7 @@
                                 ₱<span id="calc-total">5,500</span>
                             </div>
                             <p class="text-zinc-500 font-bold uppercase tracking-[0.4em] mt-4">Suggested Retail Price</p>
-                            <button class="mt-12 px-16 py-5 bg-white text-black rounded-full font-black uppercase tracking-widest text-sm btn-nike">
+                            <button onclick="showToast('QUOTE ADDED TO DISPATCH')" class="mt-12 px-16 py-5 bg-white text-black rounded-full font-black uppercase tracking-widest text-sm btn-nike">
                                 Add to Cart
                             </button>
                         </div>
@@ -325,7 +341,7 @@
                 </nav>
                 <div class="grid lg:grid-cols-12 gap-12">
                     <div class="lg:col-span-8">
-                        <div class="aspect-video bg-zinc-100 dark:bg-zinc-900 rounded-lg overflow-hidden">
+                        <div class="aspect-video bg-zinc-100 dark:bg-zinc-900 rounded-lg overflow-hidden shadow-2xl">
                             <img src="Gemini_Generated_Image_o7312co7312co731.png" class="w-full h-full object-cover" alt="Air-Flow Clog Tech Full">
                         </div>
                     </div>
@@ -336,10 +352,11 @@
                             <p class="text-xl font-bold">₱5,500.00</p>
                         </header>
                         <div class="space-y-4">
-                            <p class="text-zinc-600 dark:text-zinc-400 leading-relaxed">Engineered for stubborn household blockages. Zero damage, high-torque kinetic energy clearance.</p>
+                            <p class="text-zinc-600 dark:text-zinc-400 leading-relaxed">Engineered for stubborn household blockages. Zero damage, high-torque kinetic energy clearance. Precision-tuned for PVC and Copper arteries.</p>
                         </div>
                         <div class="space-y-4 pt-4 border-t border-zinc-100 dark:border-zinc-800">
                             <button onclick="showToast('ADDED TO CART')" class="w-full bg-black text-white dark:bg-white dark:text-black py-5 rounded-full font-black uppercase tracking-widest text-sm btn-nike">Add to Cart</button>
+                            <button onclick="handleNavScroll('contact')" class="w-full border-2 border-zinc-200 dark:border-zinc-800 py-5 rounded-full font-black uppercase tracking-widest text-sm btn-nike">Book Dispatch</button>
                         </div>
                     </div>
                 </div>
@@ -356,7 +373,7 @@
                 </nav>
                 <div class="grid lg:grid-cols-12 gap-12">
                     <div class="lg:col-span-8">
-                        <div class="aspect-video bg-zinc-100 dark:bg-zinc-900 rounded-lg overflow-hidden">
+                        <div class="aspect-video bg-zinc-100 dark:bg-zinc-900 rounded-lg overflow-hidden shadow-2xl">
                             <img src="Gemini_Generated_Image_bdks80bdks80bdks.png" class="w-full h-full object-cover" alt="Hydro-Force Blast Full">
                         </div>
                     </div>
@@ -367,10 +384,11 @@
                             <p class="text-xl font-bold">₱14,000.00</p>
                         </header>
                         <div class="space-y-4">
-                            <p class="text-zinc-600 dark:text-zinc-400 leading-relaxed">Industrial strength hydro-jetting designed for the most demanding commercial infrastructure.</p>
+                            <p class="text-zinc-600 dark:text-zinc-400 leading-relaxed">Industrial strength hydro-jetting designed for the most demanding commercial infrastructure. Clears grease, sediment, and debris instantly.</p>
                         </div>
                         <div class="space-y-4 pt-4 border-t border-zinc-100 dark:border-zinc-800">
                             <button onclick="showToast('ADDED TO CART')" class="w-full bg-black text-white dark:bg-white dark:text-black py-5 rounded-full font-black uppercase tracking-widest text-sm btn-nike">Add to Cart</button>
+                            <button onclick="handleNavScroll('contact')" class="w-full border-2 border-zinc-200 dark:border-zinc-800 py-5 rounded-full font-black uppercase tracking-widest text-sm btn-nike">Book Dispatch</button>
                         </div>
                     </div>
                 </div>
@@ -387,7 +405,7 @@
                 </nav>
                 <div class="grid lg:grid-cols-12 gap-12">
                     <div class="lg:col-span-8">
-                        <div class="aspect-video bg-zinc-100 dark:bg-zinc-900 rounded-lg overflow-hidden">
+                        <div class="aspect-video bg-zinc-100 dark:bg-zinc-900 rounded-lg overflow-hidden shadow-2xl">
                             <img src="Gemini_Generated_Image_ttmoqlttmoqlttmo.png" class="w-full h-full object-cover" alt="Vapor Drain Shield Full">
                         </div>
                     </div>
@@ -398,10 +416,11 @@
                             <p class="text-xl font-bold">₱8,500.00</p>
                         </header>
                         <div class="space-y-4">
-                            <p class="text-zinc-600 dark:text-zinc-400 leading-relaxed">Advanced structural lining that creates an impenetrable barrier against moisture and backflow.</p>
+                            <p class="text-zinc-600 dark:text-zinc-400 leading-relaxed">Advanced structural lining that creates an impenetrable barrier against moisture and backflow. Future-proof your drainage.</p>
                         </div>
                         <div class="space-y-4 pt-4 border-t border-zinc-100 dark:border-zinc-800">
                             <button onclick="showToast('ADDED TO CART')" class="w-full bg-black text-white dark:bg-white dark:text-black py-5 rounded-full font-black uppercase tracking-widest text-sm btn-nike">Add to Cart</button>
+                            <button onclick="handleNavScroll('contact')" class="w-full border-2 border-zinc-200 dark:border-zinc-800 py-5 rounded-full font-black uppercase tracking-widest text-sm btn-nike">Book Dispatch</button>
                         </div>
                     </div>
                 </div>
@@ -415,20 +434,25 @@
         <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
             <div class="grid md:grid-cols-4 gap-12 font-bold text-xs uppercase tracking-widest">
                 <div class="col-span-1 space-y-6">
-                    <div class="flex items-center gap-1">
+                    <div class="flex items-center gap-1 cursor-pointer" onclick="navigateTo('home')">
                         <span class="font-impact text-2xl italic">NIKE</span>
                         <span class="text-sm text-zinc-500">SEWER</span>
+                    </div>
+                    <div class="flex gap-4">
+                        <button class="hover:text-zinc-400 transition-colors"><i data-lucide="twitter"></i></button>
+                        <button class="hover:text-zinc-400 transition-colors"><i data-lucide="facebook"></i></button>
+                        <button class="hover:text-zinc-400 transition-colors"><i data-lucide="instagram"></i></button>
                     </div>
                 </div>
                 <div class="space-y-4 flex flex-col">
                     <p class="text-white">Get Help</p>
-                    <a href="#" class="text-zinc-500 hover:text-white transition-colors">Order Status</a>
-                    <a href="#" class="text-zinc-500 hover:text-white transition-colors">Emergency Dispatch</a>
+                    <button onclick="showToast('CHECK EMAIL FOR STATUS')" class="text-zinc-500 hover:text-white transition-colors text-left">Order Status</button>
+                    <button onclick="handleNavScroll('contact')" class="text-zinc-500 hover:text-white transition-colors text-left">Emergency Dispatch</button>
                 </div>
                 <div class="space-y-4 flex flex-col">
                     <p class="text-white">Support</p>
-                    <a href="#" class="text-zinc-500 hover:text-white transition-colors">Careers</a>
-                    <a href="#" class="text-zinc-500 hover:text-white transition-colors">Sustainability</a>
+                    <button class="text-zinc-500 hover:text-white transition-colors text-left">Careers</button>
+                    <button class="text-zinc-500 hover:text-white transition-colors text-left">Sustainability</button>
                 </div>
                 <div class="space-y-4 flex flex-col">
                     <p class="text-white">Contact Us</p>
@@ -439,8 +463,8 @@
             <div class="mt-20 pt-8 border-t border-zinc-900 flex flex-col md:flex-row justify-between gap-4 text-[10px] text-zinc-600 font-bold uppercase tracking-widest">
                 <p>&copy; 2024 NIKE SEWER, INC. ALL FLOWS RESERVED.</p>
                 <div class="flex flex-wrap gap-6">
-                    <a href="#">Terms of Use</a>
-                    <a href="#">Privacy Policy</a>
+                    <button class="hover:text-white">Terms of Use</button>
+                    <button class="hover:text-white">Privacy Policy</button>
                 </div>
             </div>
         </div>
@@ -448,25 +472,74 @@
 
     <!-- Scripts -->
     <script>
-        lucide.createIcons();
+        // Initializer for Lucide
+        function initIcons() {
+            lucide.createIcons();
+        }
 
+        // Single Page Navigation Logic
         function navigateTo(view) {
             const mainContent = document.getElementById('main-content');
             const views = ['home-view', 'airflow-view', 'hydroforce-view', 'vapordrain-view'];
             
+            // Start transition
             mainContent.style.opacity = '0';
             
             setTimeout(() => {
-                views.forEach(v => document.getElementById(v).classList.add('hidden'));
-                document.getElementById(view + '-view').classList.remove('hidden');
+                // Hide all views
+                views.forEach(v => {
+                    const el = document.getElementById(v);
+                    if (el) el.classList.add('hidden');
+                });
+                
+                // Show target view
+                const target = document.getElementById(view + '-view');
+                if (target) {
+                    target.classList.remove('hidden');
+                }
+                
+                // Reset scroll
                 window.scrollTo(0, 0);
+                
+                // Finish transition
                 mainContent.style.opacity = '1';
-                lucide.createIcons();
+                initIcons();
             }, 300);
 
+            // Close mobile menu if open
             document.getElementById('mobile-menu').classList.add('hidden');
         }
 
+        // Scroll helper for navigation across different views
+        function handleNavScroll(sectionId) {
+            const homeView = document.getElementById('home-view');
+            
+            if (homeView.classList.contains('hidden')) {
+                // Not on home, go home first then scroll
+                navigateTo('home');
+                setTimeout(() => {
+                    const section = document.getElementById(sectionId);
+                    if (section) {
+                        window.scrollTo({
+                            top: section.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                }, 400); // Wait for transition to home
+            } else {
+                // Already on home, just scroll
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    window.scrollTo({
+                        top: section.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+            document.getElementById('mobile-menu').classList.add('hidden');
+        }
+
+        // Theme Toggle Logic
         const html = document.documentElement;
         const themeBtn = document.getElementById('theme-toggle');
         const sunIcon = document.getElementById('theme-icon-light');
@@ -489,19 +562,24 @@
             }
         }
 
-        if (localStorage.getItem('theme') === 'dark') {
+        // Initialize Theme
+        if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             html.classList.add('dark');
             updateThemeIcons(true);
+        } else {
+            updateThemeIcons(false);
         }
 
         themeBtn.addEventListener('click', toggleTheme);
 
+        // Mobile Menu Button
         const mobileBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         mobileBtn.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
         });
 
+        // Pricing Calculator Logic
         let currentBase = 5500;
         const sizeInput = document.getElementById('calc-size');
         const sizeDisplay = document.getElementById('size-display');
@@ -525,18 +603,37 @@
             let total = currentBase + sizeSurcharge;
             if (emergencyCheck.checked) total *= 1.5;
             sizeDisplay.textContent = `${size.toLocaleString()} SQ FT`;
-            totalDisplay.innerHTML = Math.round(total).toLocaleString();
+            
+            // Animate number
+            const currentVal = parseInt(totalDisplay.innerText.replace(/,/g, ''));
+            animateValue(totalDisplay, currentVal, Math.round(total), 300);
+        }
+
+        function animateValue(obj, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const current = Math.floor(progress * (end - start) + start);
+                obj.innerHTML = current.toLocaleString();
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
         }
 
         [sizeInput, emergencyCheck].forEach(el => el.addEventListener('input', updatePrice));
 
+        // Toast System
         function showToast(message) {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
-            toast.className = `bg-black text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest text-xs flex items-center gap-3 transform translate-x-full transition-all duration-300 shadow-2xl`;
-            toast.innerHTML = `<i data-lucide="check" class="w-4 h-4"></i> ${message}`;
+            toast.className = `bg-black text-white px-8 py-4 rounded-full font-black uppercase tracking-widest text-[10px] flex items-center gap-3 transform translate-x-full transition-all duration-300 shadow-2xl border border-zinc-800`;
+            toast.innerHTML = `<i data-lucide="check" class="w-4 h-4 text-green-500"></i> ${message}`;
             container.appendChild(toast);
             lucide.createIcons();
+            
             setTimeout(() => toast.classList.remove('translate-x-full'), 100);
             setTimeout(() => {
                 toast.classList.add('translate-x-full');
@@ -544,18 +641,27 @@
             }, 4000);
         }
 
+        // Contact Form Handling
         document.getElementById('contact-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const btn = e.target.querySelector('button');
-            btn.textContent = "PROCESSING...";
+            const originalText = btn.innerHTML;
+            btn.innerHTML = "DISPATCHING...";
+            btn.disabled = true;
+            
             setTimeout(() => {
                 showToast("REQUEST DISPATCHED");
                 e.target.reset();
-                btn.textContent = "SUBMIT REQUEST";
-            }, 1000);
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 1200);
         });
 
-        updatePrice();
+        // Initial Setup
+        window.onload = () => {
+            initIcons();
+            updatePrice();
+        };
     </script>
 </body>
 </html>
